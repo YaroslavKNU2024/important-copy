@@ -1,0 +1,63 @@
+﻿@model IEnumerable<VirusAppFinal.Virus>
+
+@{
+    ViewData["Title"] = "Віруси за групами";
+}
+@if (@ViewBag.FacultyName == null)
+{
+    <h1>Усі віруси</h1>
+} else {
+<h1>Віруси групи @ViewBag.GroupName</h1>
+}
+
+<p>
+    @Html.ActionLink("Додати новий вірус", "Create", new { groupId = @ViewBag.GroupId })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VirusName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VirusDateDiscovered)
+            </th>
+            @if (@ViewBag.GroupName == null)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Group)
+            </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VirusName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VirusDateDiscovered)
+                    </td>
+                    @if (ViewBag.GroupName == null) {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Group.GroupName)
+                        </td>
+                    }
+                    <td>
+                          @Html.ActionLink("Редагувати", "Edit", new { id = @item.Id, groupId = @ViewBag.GroupId }) |
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |*@
+                <a asp-action="Details" asp-route-id="@item.Id">Детальніше</a> |
+                @Html.ActionLink("Видалити", "Delete", new { id = @item.Id, groupId = @ViewBag.GroupId })
+                        @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+*@                    </td>
+                </tr>
+
+
+        }
+    </tbody>
+</table>
